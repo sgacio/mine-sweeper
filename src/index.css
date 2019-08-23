@@ -9,4 +9,39 @@ html {
 body {
   margin: 0;
   min-height: 100%;
+  background-color: rgb(62, 91, 122);
+}
+
+td {
+  border: .2rem solid black;
+  height: 3rem;
+  width: 3rem;
+}
+
+table {
+  margin-left: 32.8rem;
+  margin-top: -3rem;
+  background-color: gray;
+}
+
+.gameControls {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-left: 4rem;
+}
+
+button {
+  height: 1.5rem;
+  width: 7rem;
+  margin: 1rem;
+}
+
+h1 {
+  padding-top: 1rem;
+  text-align: center;
+}
+
+h5 {
+  text-align: center;
 }
