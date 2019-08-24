@@ -14,36 +14,48 @@ body {
 
 td {
   border: .1rem solid black;
-  height: 3rem;
-  width: 3rem;
+  height: 2rem;
+  width: 2rem;
 }
 
 table {
-  margin-left: 32.6rem;
-  margin-top: -3rem;
+  margin-left: 10rem;
+  margin-top: -22rem;
   background-color: gray;
 }
+
+/* .filler {
+  text-align: center;
+  color: yellowgreen;
+} */
 
 .gameControls {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin-left: 4rem;
+  margin-left: 1rem;
 }
 
 button {
-  height: 2.5rem;
-  width: 7rem;
+  height: 2rem;
+  width: 5rem;
   margin: 1rem;
+  font-size: .65rem;
+  font-weight: 900;
+  border: .1rem solid peru;
+  border-radius: 10px;
 }
 
 h1 {
-  padding-top: 1rem;
-  text-align: center;
+  text-align: end;
+  margin-right: .5rem;
+  color: yellowgreen;
 }
 
 h5 {
-  text-align: center;
+  text-align: end;
+  margin-right: 4.5rem;
+  color: yellowgreen;
 }
 
 .end-game-text {

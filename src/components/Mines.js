@@ -13,10 +13,9 @@ class Mines extends Component {
 
   doYouWantToPlay = event => {
     console.log('clicking')
-    event.target.classNameList.remove('hidden')
   }
 
-  componentDidMount() {
+  easyModeActive = () => {
     axios({
       method: 'post',
       url: 'http://minesweeper-api.herokuapp.com/games'
@@ -30,6 +29,36 @@ class Mines extends Component {
       })
       console.table(resp.data.board)
     })
+  }
+
+  mediumModeActive = () => {
+    axios
+      .post(`http://minesweeper-api.herokuapp.com/games`, {
+        difficulty: 1
+      })
+      .then(resp => {
+        this.setState({
+          board: resp.data.board,
+          currentState: resp.data.state,
+          mines: resp.data.mines,
+          gameID: resp.data.id
+        })
+      })
+  }
+
+  hardModeActive = () => {
+    axios
+      .post(`http://minesweeper-api.herokuapp.com/games`, {
+        difficulty: 2
+      })
+      .then(resp => {
+        this.setState({
+          board: resp.data.board,
+          currentState: resp.data.state,
+          mines: resp.data.mines,
+          gameID: resp.data.id
+        })
+      })
   }
 
   ClickingTheClick = (x, y) => {
@@ -75,18 +104,11 @@ class Mines extends Component {
   }
 
   resetTheGame = () => {
-    console.log('reset this')
-    axios({
-      method: 'post',
-      url: 'http://minesweeper-api.herokuapp.com/games'
-    }).then(resp => {
-      console.log(resp)
-      this.setState({
-        board: resp.data.board,
-        currentState: resp.data.state,
-        mines: resp.data.mines,
-        gameID: resp.data.id
-      })
+    this.setState({
+      board: [],
+      currentState: '',
+      mines: '',
+      gameID: ''
     })
   }
 
@@ -96,10 +118,9 @@ class Mines extends Component {
         <h1>MINESWEEPER</h1>
         <h5>GET SWEPT KID</h5>
         <div className="gameControls">
-          <button onClick={this.doYouWantToPlay}>Select Game Difficulty</button>
-          <button>Easy</button>
-          <button>Medium</button>
-          <button>Hard</button>
+          <button onClick={this.easyModeActive}>Easy</button>
+          <button onClick={this.mediumModeActive}>Medium</button>
+          <button onClick={this.hardModeActive}>Hard</button>
           <button onClick={this.resetTheGame}>Reset Game</button>
         </div>
         <section>
@@ -123,6 +144,7 @@ class Mines extends Component {
               })}
             </tbody>
           </table>
+          {/* <p className="filler">Did You Win?</p> */}
           <p className="end-game-text">{this.determiningWinnerOrLoser()}</p>
         </section>
       </>
