@@ -5,7 +5,15 @@ import axios from 'axios'
 class Mines extends Component {
   state = {
     board: [],
-    startGame: ''
+    gameID: '',
+    mines: '',
+    currentState: '',
+    difficulty: ''
+  }
+
+  doYouWantToPlay = event => {
+    console.log('clicking')
+    event.target.classNameList.remove('hidden')
   }
 
   componentDidMount() {
@@ -15,21 +23,70 @@ class Mines extends Component {
     }).then(resp => {
       console.log(resp)
       this.setState({
-        board: resp.data.board
+        board: resp.data.board,
+        currentState: resp.data.state,
+        mines: resp.data.mines,
+        gameID: resp.data.id
       })
-      console.log(resp.data.board)
+      console.table(resp.data.board)
     })
   }
 
-  // ClickingTheClick = (x, y) => {
-  //   this.setState({
-  //   })
-  // }
+  ClickingTheClick = (x, y) => {
+    console.log('click', x, y)
+    axios
+      .post(
+        `http://minesweeper-api.herokuapp.com/games/${this.state.gameID}/check`,
+        {
+          row: x,
+          col: y
+        }
+      )
+      .then(resp => {
+        this.setState({
+          board: resp.data.board,
+          currentState: resp.data.state,
+          mines: resp.data.mines
+        })
+      })
+  }
 
-  initiateGame = () => {
-    console.log('button')
-    this.setState({
-      startGame: this.state.board.playing
+  determiningWinnerOrLoser = () => {
+    if (this.state.currentState === 'lost') {
+      return 'Player Lost, Play Again!'
+    } else if (this.state.currentState === 'win') {
+      return 'Player Win, Play Again!'
+    }
+  }
+
+  rightClickingTheClick = (x, y) => {
+    axios
+      .post(
+        `http://minesweeper-api.herokuapp.com/games/${this.state.gameID}/flag`,
+        { row: x, col: y }
+      )
+      .then(resp => {
+        this.setState({
+          board: resp.data.board,
+          currentState: resp.data.state,
+          mines: resp.data.mines
+        })
+      })
+  }
+
+  resetTheGame = () => {
+    console.log('reset this')
+    axios({
+      method: 'post',
+      url: 'http://minesweeper-api.herokuapp.com/games'
+    }).then(resp => {
+      console.log(resp)
+      this.setState({
+        board: resp.data.board,
+        currentState: resp.data.state,
+        mines: resp.data.mines,
+        gameID: resp.data.id
+      })
     })
   }
 
@@ -39,8 +96,11 @@ class Mines extends Component {
         <h1>MINESWEEPER</h1>
         <h5>GET SWEPT KID</h5>
         <div className="gameControls">
-          <button onClick={this.initiateGame}>Start Game</button>
-          <button>Reset Game</button>
+          <button onClick={this.doYouWantToPlay}>Select Game Difficulty</button>
+          <button>Easy</button>
+          <button>Medium</button>
+          <button>Hard</button>
+          <button onClick={this.resetTheGame}>Reset Game</button>
         </div>
         <section>
           <table>
@@ -54,6 +114,7 @@ class Mines extends Component {
                           key={j}
                           display={this.state.board[i][j]}
                           doTheClick={() => this.ClickingTheClick(i, j)}
+                          rightClick={() => this.rightClickingTheClick(i, j)}
                         />
                       )
                     })}
@@ -62,6 +123,7 @@ class Mines extends Component {
               })}
             </tbody>
           </table>
+          <p className="end-game-text">{this.determiningWinnerOrLoser()}</p>
         </section>
       </>
     )

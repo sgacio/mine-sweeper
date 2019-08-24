@@ -13,13 +13,13 @@ body {
 }
 
 td {
-  border: .2rem solid black;
+  border: .1rem solid black;
   height: 3rem;
   width: 3rem;
 }
 
 table {
-  margin-left: 32.8rem;
+  margin-left: 32.6rem;
   margin-top: -3rem;
   background-color: gray;
 }
@@ -32,7 +32,7 @@ table {
 }
 
 button {
-  height: 1.5rem;
+  height: 2.5rem;
   width: 7rem;
   margin: 1rem;
 }
@@ -43,5 +43,11 @@ h1 {
 }
 
 h5 {
+  text-align: center;
+}
+
+.end-game-text {
+  font-size: 3rem;
+  color: yellowgreen;
   text-align: center;
 }
